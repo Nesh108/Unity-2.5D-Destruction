@@ -2,9 +2,9 @@
 Unity 2.5D Destruction is a basic tool for breaking 2D sprites into 2.5D fragments for awesome destruction effects!!!
 
 ## Instructions for Basic Use
-* Import the Unity 2D Destruction package
+* Import the Unity 2.5D Destruction package
 * drag a sprite into your scene
-* Add an Explodable component and pick the options (Collider type, )
+* Add an Explodable component
 * Set your parameters and click Generate Fragments (repeat until you are satisfied with your fragments)
 * During gameplay, call explode() on the Explodable component to destroy the original sprite and activate the fragments
 
@@ -15,6 +15,10 @@ The fragmentaiton operation isn't the fastest so I don't really recommend this.
 **DestroyAfterHit**: Can set this to automatically destroy the pieces (can be extended for random duration).
 
 **Collider Type**: Can select a type of collider for the parent.
+
+**Parent Collider Width**: Can select a width of the collider on the parent (results may vary, double-check).
+
+**Children Collider Width**: Can select a width of the collider on the children (results may vary, double-check).
 
 **Shatter Type**: Can set this to generate triangular fragments or more "realistic" voronoi fragments.
 

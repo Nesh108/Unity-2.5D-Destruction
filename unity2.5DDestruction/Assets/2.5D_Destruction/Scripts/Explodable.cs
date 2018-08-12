@@ -7,6 +7,8 @@ public class Explodable : MonoBehaviour
     public Action<List<GameObject>> OnFragmentsGenerated;
 
     public bool allowRuntimeFragmentation = false;
+    public float ParentColliderWidth = 1f;
+    public float ChildrenColliderWidth = 1f;
     public bool DestroyPiecesAfterHit = false;
     public float DestroyAfterTime = 0f;
     public int extraPoints = 0;
@@ -116,6 +118,7 @@ public class Explodable : MonoBehaviour
                 p.GetComponent<Renderer>().sortingLayerName = sortingLayerName;
                 p.GetComponent<Renderer>().sortingOrder = orderInLayer;
                 MeshCollider meshCol = p.AddComponent<MeshCollider>();
+                meshCol.skinWidth = ChildrenColliderWidth;
                 Rigidbody rb = p.AddComponent<Rigidbody>();
                 rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
                 meshCol.sharedMesh = p.GetComponent<MeshFilter>().sharedMesh;
@@ -170,18 +173,32 @@ public class Explodable : MonoBehaviour
         switch (ColliderTypeParent)
         {
             case ColliderType.BOX:
-                gameObject.AddComponent<BoxCollider>();
+                BoxCollider bc = gameObject.AddComponent<BoxCollider>();
+                bc.size = new Vector3(bc.size.x, bc.size.y, ParentColliderWidth);
                 break;
             case ColliderType.SPHERE:
-                gameObject.AddComponent<SphereCollider>();
+                gameObject.AddComponent<SphereCollider>().radius = ParentColliderWidth;
                 break;
             case ColliderType.CAPSULE:
-                gameObject.AddComponent<CapsuleCollider>();
+                gameObject.AddComponent<CapsuleCollider>().radius = ParentColliderWidth;
                 break;
             case ColliderType.MESH:
-                gameObject.AddComponent<MeshCollider>();
+                MeshCollider mc = gameObject.AddComponent<MeshCollider>();
+                mc.sharedMesh = SpriteToMesh(gameObject.GetComponent<SpriteRenderer>().sprite);
+                mc.convex = true;
+                mc.skinWidth = ParentColliderWidth;
                 break;
         }
+    }
+
+    Mesh SpriteToMesh(Sprite sprite)
+    {
+        Mesh mesh = new Mesh();
+        mesh.vertices = Array.ConvertAll(sprite.vertices, i => (Vector3)i);
+        mesh.uv = sprite.uv;
+        mesh.triangles = Array.ConvertAll(sprite.triangles, i => (int)i);
+
+        return mesh;
     }
 }
 

@@ -15,6 +15,8 @@ public class ExplodableEditor : Editor
             myTarget.DestroyAfterTime = EditorGUILayout.FloatField("Destroy After Time", myTarget.DestroyAfterTime);
         }
         myTarget.ColliderTypeParent = (ColliderType)EditorGUILayout.EnumPopup("Collider Type", myTarget.ColliderTypeParent);
+        myTarget.ParentColliderWidth = EditorGUILayout.FloatField("Parent Collider Width", myTarget.ParentColliderWidth);
+        myTarget.ChildrenColliderWidth = EditorGUILayout.FloatField("Children Collider Width", myTarget.ChildrenColliderWidth);
         myTarget.shatterType = (Explodable.ShatterType)EditorGUILayout.EnumPopup("Shatter Type", myTarget.shatterType);
         myTarget.extraPoints = EditorGUILayout.IntField("Extra Points", myTarget.extraPoints);
         myTarget.subshatterSteps = EditorGUILayout.IntField("Subshatter Steps", myTarget.subshatterSteps);
