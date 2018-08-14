@@ -6,27 +6,46 @@ public class Explodable : MonoBehaviour
 {
     public Action<List<GameObject>> OnFragmentsGenerated;
 
+    [HideInInspector]
     public bool allowRuntimeFragmentation = false;
+    [HideInInspector]
     public float ParentColliderWidth = 1f;
+    [HideInInspector]
     public float ChildrenColliderWidth = 1f;
+    [HideInInspector]
     public bool DestroyPiecesAfterHit = false;
+    [HideInInspector]
     public float DestroyAfterTime = 0f;
+    public RangedFloat MassPerFragment;
+    public RangedFloat DragPerFragment;
+    public RangedFloat AngularDragPerFragment;
+    [HideInInspector]
+    public bool UseGravityOnFragments = true;
+    [HideInInspector]
     public int extraPoints = 0;
+    [HideInInspector]
     public int subshatterSteps = 0;
+    [HideInInspector]
     public ColliderType ColliderTypeParent = ColliderType.BOX;
 
+    [HideInInspector]
     public string fragmentLayer = "Default";
+    [HideInInspector]
     public string sortingLayerName = "Default";
+    [HideInInspector]
     public int orderInLayer = 0;
 
-
+    [HideInInspector]
     public enum ShatterType
     {
         Triangle,
         Voronoi
     };
+    [HideInInspector]
     public ShatterType shatterType;
+    [HideInInspector]
     public List<GameObject> fragments = new List<GameObject>();
+    [HideInInspector]
     private List<List<Vector2>> polygons = new List<List<Vector2>>();
 
     /// <summary>
@@ -120,10 +139,16 @@ public class Explodable : MonoBehaviour
                 MeshCollider meshCol = p.AddComponent<MeshCollider>();
                 meshCol.skinWidth = ChildrenColliderWidth;
                 Rigidbody rb = p.AddComponent<Rigidbody>();
+                rb.mass = UnityEngine.Random.Range(MassPerFragment.minValue, MassPerFragment.maxValue);
+                rb.useGravity = UseGravityOnFragments;
+                rb.drag = UnityEngine.Random.Range(DragPerFragment.minValue, DragPerFragment.maxValue);
+                rb.angularDrag = UnityEngine.Random.Range(AngularDragPerFragment.minValue, AngularDragPerFragment.maxValue);
                 rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
                 meshCol.sharedMesh = p.GetComponent<MeshFilter>().sharedMesh;
+                meshCol.sharedMesh.RecalculateBounds();
+                meshCol.sharedMesh.RecalculateNormals();
+                meshCol.sharedMesh.RecalculateTangents();
                 meshCol.convex = true;
-                meshCol.inflateMesh = true;
                 if (DestroyPiecesAfterHit)
                 {
                     p.AddComponent<DestroyAfter>().Time = DestroyAfterTime;

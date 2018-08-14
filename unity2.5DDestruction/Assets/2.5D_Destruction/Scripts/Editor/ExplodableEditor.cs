@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(Explodable))]
+[CustomEditor(typeof(Explodable), true)]
 public class ExplodableEditor : Editor
 {
 
@@ -14,6 +14,10 @@ public class ExplodableEditor : Editor
         {
             myTarget.DestroyAfterTime = EditorGUILayout.FloatField("Destroy After Time", myTarget.DestroyAfterTime);
         }
+        this.DrawDefaultInspectorWithoutScriptField();
+        myTarget.UseGravityOnFragments = EditorGUILayout.Toggle("Use Gravity On Fragments", myTarget.UseGravityOnFragments);
+
+
         myTarget.ColliderTypeParent = (ColliderType)EditorGUILayout.EnumPopup("Collider Type", myTarget.ColliderTypeParent);
         myTarget.ParentColliderWidth = EditorGUILayout.FloatField("Parent Collider Width", myTarget.ParentColliderWidth);
         myTarget.ChildrenColliderWidth = EditorGUILayout.FloatField("Children Collider Width", myTarget.ChildrenColliderWidth);
@@ -40,5 +44,28 @@ public class ExplodableEditor : Editor
             myTarget.deleteFragments();
             EditorUtility.SetDirty(myTarget);
         }
+    }
+}
+
+public static class DefaultInspector_EditorExtension
+{
+    public static bool DrawDefaultInspectorWithoutScriptField(this Editor Inspector)
+    {
+        EditorGUI.BeginChangeCheck();
+
+        Inspector.serializedObject.Update();
+
+        SerializedProperty Iterator = Inspector.serializedObject.GetIterator();
+
+        Iterator.NextVisible(true);
+
+        while (Iterator.NextVisible(false))
+        {
+            EditorGUILayout.PropertyField(Iterator, true);
+        }
+
+        Inspector.serializedObject.ApplyModifiedProperties();
+
+        return (EditorGUI.EndChangeCheck());
     }
 }
