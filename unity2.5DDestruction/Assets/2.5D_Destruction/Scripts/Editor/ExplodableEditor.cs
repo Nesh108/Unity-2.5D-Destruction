@@ -10,13 +10,9 @@ public class ExplodableEditor : Editor
         Explodable myTarget = (Explodable)target;
         myTarget.allowRuntimeFragmentation = EditorGUILayout.Toggle("Allow Runtime Fragmentation", myTarget.allowRuntimeFragmentation);
         myTarget.DestroyPiecesAfterHit = EditorGUILayout.Toggle("Destroy Pieces After Hit", myTarget.DestroyPiecesAfterHit);
-        if (myTarget.DestroyPiecesAfterHit)
-        {
-            myTarget.DestroyAfterTime = EditorGUILayout.FloatField("Destroy After Time", myTarget.DestroyAfterTime);
-        }
+
         this.DrawDefaultInspectorWithoutScriptField();
         myTarget.UseGravityOnFragments = EditorGUILayout.Toggle("Use Gravity On Fragments", myTarget.UseGravityOnFragments);
-
 
         myTarget.ColliderTypeParent = (ColliderType)EditorGUILayout.EnumPopup("Collider Type", myTarget.ColliderTypeParent);
         myTarget.ParentColliderWidth = EditorGUILayout.FloatField("Parent Collider Width", myTarget.ParentColliderWidth);

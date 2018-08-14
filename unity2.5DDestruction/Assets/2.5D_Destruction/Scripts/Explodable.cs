@@ -14,8 +14,7 @@ public class Explodable : MonoBehaviour
     public float ChildrenColliderWidth = 1f;
     [HideInInspector]
     public bool DestroyPiecesAfterHit = false;
-    [HideInInspector]
-    public float DestroyAfterTime = 0f;
+    public RangedFloat DestroyAfterTime;
     public RangedFloat MassPerFragment;
     public RangedFloat DragPerFragment;
     public RangedFloat AngularDragPerFragment;
@@ -151,7 +150,7 @@ public class Explodable : MonoBehaviour
                 meshCol.convex = true;
                 if (DestroyPiecesAfterHit)
                 {
-                    p.AddComponent<DestroyAfter>().Time = DestroyAfterTime;
+                    p.AddComponent<DestroyAfter>().Time = UnityEngine.Random.Range(DestroyAfterTime.minValue, DestroyAfterTime.maxValue);
                 }
             }
         }
