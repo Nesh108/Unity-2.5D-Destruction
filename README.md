@@ -1,7 +1,15 @@
 # Unity-2.5D-Destruction
 Unity 2.5D Destruction is a basic tool for breaking 2D sprites into 2.5D fragments for awesome destruction effects!!!
 
+------------------
+
+<img src="destruction_2.5d_scene.png" alt="Destruction 2.5D Editor Scene"/>
+
+------------------
+
 <img src="destruction_2.5d_editor.png" alt="Destruction 2.5D Editor Window"/>
+
+------------------
 
 ## Instructions for Basic Use
 * Import the Unity 2.5D Destruction package
